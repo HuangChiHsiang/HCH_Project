@@ -1,0 +1,50 @@
+
+/* navbar 系列 ======================== */
+
+/* navbar 整體主色 */
+.navbar-default {
+    background-color: #FFC229;
+}
+
+/* navbar 字體 */
+.navbar{
+	font-size: 17px;
+	text-shadow:0.2px 0.2px 0.8px #FF8C00;
+}
+
+/* navbar 字體顏色 */
+.navbar-default .navbar-nav > li > a {
+    color: #FFFAFA;
+}
+
+
+/* navbar 滑過 字體顏色及背景 */
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    background-color: #FFDD55;
+    color: #000000;
+}
+
+/* navbar 選項選中 字體顏色及背景 */
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #000000;
+    text-shadow:0px 0px 0px #D2691E;
+    background-color: #FFDD55; 
+}
+
+/* navbar 的下拉 dropdown */
+.navbar-default .dropdown-menu > li > a, .navbar-default .dropdown-menu > li > a:focus {
+    color: #000000;
+    text-shadow:0px 0px 0px #000000;
+    background-color: #FFDD55;
+}
+
+/* navbar的下拉 dropdown 滑過 字體顏色及背景 */
+.navbar-default .dropdown-menu > li > a:hover, .navbar-default .dropdown-menu > .active > a, .navbar-default .dropdown-menu > .active > a:hover {
+    background-color: #FFC229;
+    text-shadow:0px 0px 0px #000000;
+    color: #000000;
+}
+
+/* navbar 系列 ======================== */
+
+
