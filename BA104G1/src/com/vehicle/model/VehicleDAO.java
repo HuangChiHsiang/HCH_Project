@@ -15,14 +15,14 @@ public class VehicleDAO implements Vehicle_interface {
 
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "Project";
-	String passwd = "Project";
+	String userid = "BA104G1";
+	String passwd = "BA104G1";
 
 	// private static DataSource ds = null;
 	// static {
 	// try {
 	// Context ctx = new InitialContext();
-	// ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Austin");
+	// ds = (DataSource) ctx.lookup("java:comp/env/jdbc/BA104G1");
 	// } catch (NamingException e) {
 	// e.printStackTrace();
 	// }

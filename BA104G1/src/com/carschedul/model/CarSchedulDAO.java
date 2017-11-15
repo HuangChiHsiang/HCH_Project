@@ -20,14 +20,14 @@ public class CarSchedulDAO implements CarSchedul_interface {
 
 //	String driver = "oracle.jdbc.driver.OracleDriver";
 //	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-//	String userid = "PROJECT";
-//	String passwd = "PROJECT";
+//	String userid = "BA104G1";
+//	String passwd = "BA104G1";
 
 	 private static DataSource ds = null;
 	 static {
 	 try {
 	 Context ctx = new InitialContext();
-	 ds = (DataSource) ctx.lookup("java:comp/env/jdbc/PROJECT");
+	 ds = (DataSource) ctx.lookup("java:comp/env/jdbc/BA104G1");
 	 } catch (NamingException e) {
 	 e.printStackTrace();
 	 }

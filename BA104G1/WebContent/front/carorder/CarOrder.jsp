@@ -9,7 +9,6 @@
 <head>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script> -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script src="<%=request.getContextPath()%>/front/MDP/jquery-ui.multidatespicker.js"></script><!-- 複數日期選擇器 -->
@@ -26,6 +25,7 @@
 <script src="<%=request.getContextPath()%>/front/js/carorder/bootstrap.js"></script><!-- bootstrap3.7 -->
 <script src="<%=request.getContextPath()%>/front/js/carorder/carorder.js"></script><!--自定義js-->
 <script src="<%=request.getContextPath()%>/front/js/carorder/carousel.js"></script><!-- carousel -->
+<script src="<%=request.getContextPath()%>/front/js/carorder/datepicker-zh-TW.js"></script><!-- 繁體中文 -->
 
 <jsp:useBean id="cartypeSvc" scope="page" class="com.cartype.model.CarTypeService" />
 
@@ -52,6 +52,50 @@ a.car {
     color: #fff;
     background-color: rgb(253, 182, 3);
 }
+.ui-datepicker {
+    width: 30em;
+    padding: .2em .2em 0;
+    display: none;
+    height: 25em;
+}
+
+.ui-datepicker td span, .ui-datepicker td a {
+    display: block;
+    padding: 0.8em;
+    text-align: right;
+    text-decoration: none;
+}
+
+.ui-datepicker table {
+    width: 100%;
+    font-size: .9em;
+    border-collapse: collapse;
+    margin: 0 0 .4em;
+    height: 90%;
+}
+
+.ui-datepicker table {
+    width: 100%;
+    font-size: 1.2em;
+    border-collapse: collapse;
+    margin: 0 0 .4em;
+}
+
+.div_table-cell{
+width:450px; 
+height:500px;
+display:table-cell; 
+text-align:center; 
+vertical-align:middle;
+border:solid 2px #fff;
+}
+
+/* IE6 hack */.div_table-cell span{
+height:100%; 
+display:inline-block;
+}
+
+/* 讓table-cell下的所有元素都居中 */.div_table-cell *{ vertical-align:middle;}
 
 </style>
 <title>有我罩你-派車服務申請</title>
@@ -170,12 +214,9 @@ a.car {
 								<h3>Step 2</h3>
 								<p>選擇您需要服務的日期與時段:</p><br>
 								<!-- =================================日期選擇器================================= -->
-								<!-- <label for="from">從</label> <input type="text" id="from"
-									name="from"> <label for="to">到</label> <input
-									type="text" id="to" name="to"> -->
-									選擇服務日期:
-									<div class= "addDatePick"><input id="chooseDate"></div><br><br>
-									選擇服務時段:
+									<div class="row">
+									    <div class="col-md-6">
+									    	選擇服務時段:
 										<div class="radio daypart">
   										<label><input type="radio" name="optradio" value="0" text="早">早上(8~12)</label>
 										</div>
@@ -188,8 +229,21 @@ a.car {
 										<div class="radio daypart">
 										  <label><input type="radio" name="optradio" value="3" text="全天">全天</label>
 										</div> 
-										<%-- <img src="<%=request.getContextPath()%>/front/image/calendar-series.jpg"> --%>
 										
+										<br><br>
+										選擇服務日期:
+										<div class= "addDatePick">
+										
+										<div id= "chooseDate"></div>
+										</div>
+									    </div> <!-- 6 -->
+									    
+									    <div class="col-md-6">
+									    <img src="<%=request.getContextPath()%>/front/image/calendar-series.jpg"> 
+									    </div> <!-- 6 -->
+									</div>
+									
+									
 							
 								<!-- =================================日期選擇器結束================================= -->
 								
@@ -213,7 +267,10 @@ a.car {
 									    <div id="twzipcode2">
 									    </div> -->
 									    
-										    <div class="my-selector-c">
+									    
+									<div class="row">
+									    <div class="col-md-6">
+										    <div class="my-selector-c div_table-cell">
 												  <div>
 												    <select class="county"></select>
 												  </div>
@@ -222,8 +279,27 @@ a.car {
 												  </div>
 							                      <div>
 							                      	<input type="text" name="address" id="address">
-							                      </div>			
+							                      </div>	
+							                      
+							                      <div class="my-selector-b div_table-cell">
+							                      <div>
+												    <select class="county2"></select>
+												  </div>
+												  <div>
+												    <select class="district2"></select>
+												  </div>
+							                      <div>
+							                      	<input type="text" name="address" id="address">
+							                      </div>	
+							                      
+							                      
+							                      		
 											</div>
+										</div>
+										<div class="col-md-6">
+										    <img class="loctionPic" height="583" src = "<%=request.getContextPath()%>/front/image/news_map_North.jpg">
+										</div>
+									</div>
 									    
 									    
 									    
@@ -235,12 +311,13 @@ a.car {
 								<ul class="list-inline pull-right">
 									<li><button type="button"
 											class="btn btn-default prev-step">上一步</button></li>
-									<li><button type="button"
-											class="btn btn-default next-step">跳過</button></li>
+									<!-- <li><button type="button"
+											class="btn btn-default next-step">跳過</button></li> -->
 									<li><button type="button"
 											class="btn btn-primary btn-info-full next-step">下一步</button></li>
 								</ul>
 							</div>
+							<!-- =================================表單資料轉送區=================================== -->
 							<div class="tab-pane" role="tabpanel" id="complete">
 								<h3 style="color:#D68B00">恭喜!</h3>
 								<p>您已經完成了訂車流程，請確認下方訂單資訊無誤後送出訂單，</p>
@@ -259,7 +336,7 @@ a.car {
 										    <input type="hidden" name="county" 		id="countyfor" 	>
 										    <input type="hidden" name="district" 	id="districtfor">
 										    <input type="hidden" name="address" 	id="addressfor" >
-										    <input type="hidden" name="passenger_name" 	id="passenger_name" value="黃安">  
+										    <input type="hidden" name="passenger_name" 	id="passenger_name" value="李安">  
 										    <input type="hidden" name="passenger_phone" 	id="passenger_phone"  value="09787877878">
 										    <input type="hidden" name="arrival_address" 	id="arrival_address"  value="桃園市平鎮區中大路300號">
 										    <input type="hidden" name="sendcar_status" 	id="sendcar_status" value="A" >
@@ -296,6 +373,12 @@ a.car {
 									    		    elCounty: ".county", // 在 el 裡查找 dom
 									    		    elDistrict: ".district", // 在 el 裡查找 dom
 									    		  });
+									    	 
+									    	  new TwCitySelector({
+									    		    el: ".my-selector-b",
+									    		    elCounty: ".county2", // 在 el 裡查找 dom
+									    		    elDistrict: ".district2", // 在 el 裡查找 dom
+									    		  }); 
 											//var adddates = "";
 												
 						
@@ -346,9 +429,7 @@ a.car {
 													  timer: 3500
 													});
 												}
-														
-												 
-										    	 
+										<!--AJAX日期處理-->	
 												var datelist = [];
 												var datelist2 = []; 
 												
@@ -364,27 +445,20 @@ a.car {
 															 
 															 success: function (data){
 																 $("#chooseDate").remove();
-																 
 																 datelist = data.dayStatusList;
 																 dateList2Add();
 																 $(".addDatePick").append("<input id='chooseDate'>");
 													
 																	$('#chooseDate').multiDatesPicker({
-															    		minDate: 1,
-															    		maxDate: 30, 
 															    		maxPicks: 1,
 															    		dateFormat: "yy-m-d",
+															    		minDate: 1,
+															    		stepMonths: 0,
 															    		addDisabledDates: datelist2
 																	});//多選日期	
-																	
-																
-																	
-																	
-																/*  $(data.dayStatusList).each(function(index,dayStatusList) {
-																	 console.log(dayStatusList)
-																 }) */
+							
 														     },
-												            error: function(){alert("AJAX-class發生錯誤囉!")}
+												            error: function(){alert("暫時不提供此時段派車服務")}
 												        })
 													})
 													
@@ -404,7 +478,44 @@ a.car {
 														return queryString;
 												
 									    	 		};
-									    	
+									    	<!--地址處理-->		
+									    	 var cityArr1 = ["臺北市", "基隆市", "新北市","桃園市","新竹市","新竹縣"];
+									    	 var cityArr2 = ["苗栗縣","臺中市","彰化縣","南投縣","雲林縣"];
+									    	 var cityArr3 = ["嘉義市","嘉義縣","臺南市","高雄市","屏東縣"];
+									    	 
+									    	 var loctionString = null;
+									    	 var loctionNo = null;
+									    	 $('.county').change(function(){
+									    		
+									    		<%--  $('.loctionPic').attr("src","<%=request.getContextPath()%>/front/image/news_map_empty.jpg") --%>
+											    	
+									    		 var selectCity = $('.county').val();
+									    		 console.log("城市 :"+ $('.county').val());
+									    	 
+									    	 	for(i = 0 ; i < 6 ;i++){
+										    	  
+										    	  if(selectCity == cityArr1[i]){
+										    		  loctionString = "北"
+										    			  loctionNo = "10"
+										    		$('.loctionPic').attr("src","<%=request.getContextPath()%>/front/image/news_map_North.jpg")
+										    	  }	
+										    	  else if(selectCity == cityArr2[i]){
+										    		  loctionString = "中"
+										    			  loctionNo = "30"
+										    	   $('.loctionPic').attr("src","<%=request.getContextPath()%>/front/image/news_map_West.jpg")
+										    	  }	
+										    	  else if(selectCity == cityArr3[i]){
+										    		  loctionString = "南"
+										    			  loctionNo = "50"
+										    	   $('.loctionPic').attr("src","<%=request.getContextPath()%>/front/image/news_map_South.jpg")
+										    	  }
+										    	}
+									    	 	 $('.loctionPic').hide();
+									    	 	 $('.loctionPic').fadeIn(1000);
+										    	console.log("loctionString :"+ loctionString);
+										    	console.log("loctionNo:"+ loctionNo);
+										    	
+									    	 });
 									    	});
 									    </script>
 									    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.5/sweetalert2.all.js"></script><!-- 甜甜的sweetalert2 -->

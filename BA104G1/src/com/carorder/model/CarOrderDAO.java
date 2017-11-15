@@ -15,14 +15,14 @@ public class CarOrderDAO implements CarOrder_interface {
 
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "PROJECT";
-	String passwd = "PROJECT";
+	String userid = "BA104G1";
+	String passwd = "BA104G1";
 
 	// private static DataSource ds = null;
 	// static {
 	// try {
 	// Context ctx = new InitialContext();
-	// ds = (DataSource) ctx.lookup("java:comp/env/jdbc/Austin");
+	// ds = (DataSource) ctx.lookup("java:comp/env/jdbc/BA104G1");
 	// } catch (NamingException e) {
 	// e.printStackTrace();
 	// }
@@ -311,12 +311,12 @@ public class CarOrderDAO implements CarOrder_interface {
 
 		// 查詢單筆
 
-//		 CarOrderVO carorderVO3 = dao.findByPrimaryKey("20171113-000001");//注意訂單編號日期，與資料建立日期時間相同
-//		 	System.out.print(carorderVO3.getOrder_no() + ",");
-//			System.out.print(carorderVO3.getMem_no() + ",");
-//			System.out.print(carorderVO3.getOrder_date() + ",");
-//			System.out.print(carorderVO3.getOrder_status());
-//			System.out.println("查詢成功");
+		 CarOrderVO carorderVO3 = dao.findByPrimaryKey("20171113-000001");//注意訂單編號日期，與資料建立日期時間相同
+		 	System.out.print(carorderVO3.getOrder_no() + ",");
+			System.out.print(carorderVO3.getMem_no() + ",");
+			System.out.print(carorderVO3.getOrder_date() + ",");
+			System.out.print(carorderVO3.getOrder_status());
+			System.out.println("查詢成功");
 
 		// 查詢全部
 //		List<CarOrderVO> list = dao.getAll();

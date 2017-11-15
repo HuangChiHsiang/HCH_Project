@@ -226,7 +226,6 @@ public class CarDetailServlet extends HttpServlet {
 			
 			CarSchedulService carSchedulSv = new CarSchedulService();
 			List<CarSchedulVO> carSchedulVO = carSchedulSv.getMonthInfo(cartypeno,sysdate);
-		
 			int detail_time_no = new Integer(req.getParameter("detail_time_no").trim());
 			System.out.println("預約時段數字:"+detail_time_no);
 			List<Integer> dayStatusList = new ArrayList<Integer>();
@@ -278,7 +277,7 @@ public class CarDetailServlet extends HttpServlet {
 
 			/*try {*/
 				/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
-				String order_no = "20171112-000001";
+				String order_no = "20171115-000003";
 				
 				Integer cartypeno = null;
 				String inputCarTypeName = req.getParameter("cartypename").trim();
