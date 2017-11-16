@@ -15,6 +15,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.vehicle.model.VehicleVO;
+
 
 public class CarSchedulDAO implements CarSchedul_interface {
 
@@ -357,6 +359,72 @@ public class CarSchedulDAO implements CarSchedul_interface {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<VehicleVO> getVehicleVO(Integer cartype_no, Date year_month) {
+		List<VehicleVO> list = new ArrayList<VehicleVO>();
+		VehicleVO vehicleVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			 con = ds.getConnection();
+
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_MONINFO_STMT);
+			
+			pstmt.setInt(1, cartype_no);
+			pstmt.setDate(2, year_month);
+			
+			rs = pstmt.executeQuery();
+				
+			while (rs.next()) {
+
+				vehicleVO = new VehicleVO();
+				vehicleVO.setVehicle_no(rs.getInt("vehicle_no"));
+				vehicleVO.setEmp_no(rs.getString("emp_no"));
+				vehicleVO.setCartype_no(rs.getInt("cartype_no"));
+				vehicleVO.setColor(rs.getString("color"));
+				vehicleVO.setEmp_branches(rs.getString("emp_branches"));
+				vehicleVO.setLicenseplate_no(rs.getString("licenseplate_no"));
+				vehicleVO.setVehicle_year(rs.getString("vehicle_year"));
+				
+				list.add(vehicleVO);
+			}
+//		} catch (ClassNotFoundException e) {
+//			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
 
 	public static void main(String[] args) throws IOException {
 		// String picName = "WebContent/images/tomcat.png";
@@ -428,6 +496,8 @@ public class CarSchedulDAO implements CarSchedul_interface {
 		
 		
 	}
+
+	
 
 	
 }

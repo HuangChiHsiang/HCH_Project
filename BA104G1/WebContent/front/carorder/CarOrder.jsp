@@ -97,6 +97,21 @@ display:inline-block;
 
 /* 讓table-cell下的所有元素都居中 */.div_table-cell *{ vertical-align:middle;}
 
+.ui-datepicker .ui-datepicker-calendar .ui-state-highlight a {
+    background: #ffc229 none;
+    color: white;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    border: 1px solid #749eda;
+    background: #4f43ec4f;
+    }
+    
+tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+
 </style>
 <title>有我罩你-派車服務申請</title>
 </head>
@@ -270,7 +285,9 @@ display:inline-block;
 									    
 									<div class="row">
 									    <div class="col-md-6">
-										    <div class="my-selector-c div_table-cell">
+									    <div class="div_table-cell">
+										    <div class="my-selector-c">
+										    	<b>出發點</b>
 												  <div>
 												    <select class="county"></select>
 												  </div>
@@ -280,22 +297,24 @@ display:inline-block;
 							                      <div>
 							                      	<input type="text" name="address" id="address">
 							                      </div>	
-							                      
-							                      <div class="my-selector-b div_table-cell">
+							                 </div>     
+							                 <div class="float-right">
+							                 <img src ="<%=request.getContextPath()%>/front/image/10573164a60cb01.jpg" width="30">
+							                 </div>
+							                    <div class="my-selector-b">
+							                    	<b>目的地</b>
 							                      <div>
-												    <select class="county2"></select>
+												    <select class="county2" id ="county2"></select>
 												  </div>
 												  <div>
-												    <select class="district2"></select>
+												    <select class="district2" id = "district2"></select>
 												  </div>
 							                      <div>
-							                      	<input type="text" name="address" id="address">
-							                      </div>	
-							                      
-							                      
-							                      		
-											</div>
+							                      	<input type="text" name="address2" id="address2">
+							                      </div>		
+												</div>
 										</div>
+									</div>
 										<div class="col-md-6">
 										    <img class="loctionPic" height="583" src = "<%=request.getContextPath()%>/front/image/news_map_North.jpg">
 										</div>
@@ -324,8 +343,8 @@ display:inline-block;
 									<p>如有任何疑問請撥打以下客服專線。</p>
 									<h2>0979-498988</h2>
 									<table id="showFormMsg">
-									<tr><th>車型</th><th>日期</th><th>時段</th><th>接送地點</th></tr>
-									<tr><td id="inputmsg1"></td><td id="inputmsg2"></td><td id="inputmsg3"></td><td id="inputmsg4"></td></tr>
+									<tr><th>車型</th><th>日期</th><th>時段</th><th>接送地點</th><th>目的地</th></tr>
+									<tr><td id="inputmsg1"></td><td id="inputmsg2"></td><td id="inputmsg3"></td><td id="inputmsg4"></td><td id="inputmsg5"></td></tr>
 									</table>
 									<form role="form" action="<%=request.getContextPath()%>/cardetail/cardetail.do" method="post">
 											<input type="hidden" name="action" value="insert">
@@ -336,9 +355,9 @@ display:inline-block;
 										    <input type="hidden" name="county" 		id="countyfor" 	>
 										    <input type="hidden" name="district" 	id="districtfor">
 										    <input type="hidden" name="address" 	id="addressfor" >
+										    <input type="hidden" name="arrival_address" 	id="arrivalfor" >
 										    <input type="hidden" name="passenger_name" 	id="passenger_name" value="李安">  
 										    <input type="hidden" name="passenger_phone" 	id="passenger_phone"  value="09787877878">
-										    <input type="hidden" name="arrival_address" 	id="arrival_address"  value="桃園市平鎮區中大路300號">
 										    <input type="hidden" name="sendcar_status" 	id="sendcar_status" value="A" >
 										    <input type="hidden" name="formCheck" 	id="formCheck" value="${formCheck}">
 										    
@@ -387,21 +406,33 @@ display:inline-block;
 													function() {
 														$("#inputmsg1").html($('li.active>a').text());
 														$("#inputmsg2").html($('#chooseDate').val());
-														var txt1 =$('.county').val();
-														var txt2 =$('.district').val();
-														var txt3 =$('#address').val();
-														$("#inputmsg4").html( txt1+ txt2+ txt3);
-														
-					
 														$("#cartypefor").val($('li.active>a').text());
 														$("#datefor").val($('#chooseDate').val());
 														$("#daypartfor").val($("input[name='optradio']:checked").val());
 														$("#detail_time").val($("input[name='optradio']:checked").attr("text"));
 														
 														
+														var adsTxt1 =$('.county').val();
+														var adsTxt2 =$('.district').val();
+														var adsTxt3 =$('#address').val();
+														$("#inputmsg4").html( adsTxt1 + adsTxt2+ adsTxt3);
 														$("#countyfor").val($('.county').val());
 														$("#districtfor").val($('.district').val());
 														$("#addressfor").val($('#address').val());
+														
+														
+														
+													
+														var arrTxt1 = $('#county2').val();
+														var arrTxt2 = $('#district2').val();
+														var arrTxt3 = $('#address2').val();
+														$("#inputmsg5").html(arrTxt1+ arrTxt2 + arrTxt3);
+														console.log("確認目的地:"+ $('#county2').val());
+														$("#arrivalfor").val($("#inputmsg5").html());
+														
+														
+														
+														
 														
 													});
 											$("input[name='optradio']").change(function(){

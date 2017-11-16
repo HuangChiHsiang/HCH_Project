@@ -3,6 +3,8 @@ package com.carschedul.model;
 import java.sql.Date;
 import java.util.List;
 
+import com.vehicle.model.VehicleVO;
+
 public class CarSchedulService {
 
 	private CarSchedul_interface dao;
@@ -53,5 +55,9 @@ public class CarSchedulService {
 	
 	public List<CarSchedulVO> getMonthInfo(Integer cartype_no,Date year_month) {
 		return dao.getMonthInfo(cartype_no,year_month);
+	}
+	
+	public List<VehicleVO> getVehicleInfo(Integer cartype_no,Date year_month) {
+		return dao.getVehicleVO(cartype_no,year_month);
 	}
 }

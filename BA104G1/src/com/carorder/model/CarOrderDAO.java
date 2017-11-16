@@ -9,50 +9,68 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+import com.cardetail.model.CarDetailVO;
 import com.carorder.model.CarOrderVO;
+import com.hcorder.modal.HcOrderDetailVO;
 
 public class CarOrderDAO implements CarOrder_interface {
 
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "BA104G1";
-	String passwd = "BA104G1";
+//	String driver = "oracle.jdbc.driver.OracleDriver";
+//	String url = "jdbc:oracle:thin:@localhost:1521:XE";
+//	String userid = "BA104G1";
+//	String passwd = "BA104G1";
 
-	// private static DataSource ds = null;
-	// static {
-	// try {
-	// Context ctx = new InitialContext();
-	// ds = (DataSource) ctx.lookup("java:comp/env/jdbc/BA104G1");
-	// } catch (NamingException e) {
-	// e.printStackTrace();
-	// }
-	// }
+	 private static DataSource ds = null;
+	 static {
+	 try {
+	 Context ctx = new InitialContext();
+	 ds = (DataSource) ctx.lookup("java:comp/env/jdbc/BA104G1");
+	 } catch (NamingException e) {
+	 e.printStackTrace();
+	 }
+	 }
 	private static final String INSERT_STMT = "INSERT INTO CAR_ORDER (ORDER_NO,MEM_NO,ORDER_DATE,ORDER_STATUS) VALUES (to_char(sysdate,'yyyymmdd')||'-'||LPAD(to_char(CARORDER_SEQ.Nextval),6,'0'),?,CURRENT_TIMESTAMP,?)";
+	private static final String INSERT_DETAIL_STMT = "INSERT INTO CAR_DETAIL (DETAIL_NO,ORDER_NO,VEHICLE_NO,DETAIL_DATE,DETAIL_TIME,PASSENGER_NAME,PASSENGER_PHONE,GETINTO_ADDRESS,ARRIVAL_ADDRESS,SENDCAR_STATUS)"
+			+" VALUES (to_char(sysdate,'yyyymmdd')||'-'||LPAD(to_char(cardetail_seq.Nextval),6,'0'),?,?,?,?,?,?,?,?,?)";	
 	private static final String GET_ALL_STMT = "SELECT * FROM CAR_ORDER order by ORDER_NO";
 	private static final String GET_ONE_STMT = "SELECT ORDER_NO,MEM_NO,ORDER_DATE,ORDER_STATUS FROM CAR_ORDER WHERE ORDER_NO = ?";
 	private static final String DELETE = "DELETE FROM CAR_ORDER WHERE ORDER_NO = ?";
 	private static final String UPDATE = "UPDATE CAR_ORDER SET MEM_NO = ?, ORDER_STATUS = ? WHERE ORDER_NO = ?";
 
 	@Override
-	public void insert(CarOrderVO carorderVO) {
+	public String insert(CarOrderVO carorderVO,List<CarDetailVO> list) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-
+		String nxOrder_No = null;
+		ResultSet rs = null;
+		
 		try {
 
-			// con = ds.getConnection();
-
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(INSERT_STMT);
-
+			 con = ds.getConnection();
+			 
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
+			 con.setAutoCommit(false);
+			 
+			String cols[] = {"ORDER_NO"}; 
+			pstmt = con.prepareStatement(INSERT_STMT,cols);
+			
 			pstmt.setString(1, carorderVO.getMem_no());
-//			pstmt.setDate(2, carorderVO.getOrder_date());
 			pstmt.setString(2, carorderVO.getOrder_status());
 			pstmt.executeUpdate();
+			rs = pstmt.getGeneratedKeys();
+			rs.next();
+			nxOrder_No = rs.getString(1);
+			pstmt.close();
+			
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+//		} catch (ClassNotFoundException e) {
+//			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -84,20 +102,19 @@ public class CarOrderDAO implements CarOrder_interface {
 
 		try {
 
-			// con = ds.getConnection();
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, carorderVO.getMem_no());
-//			pstmt.setDate(2, carorderVO.getOrder_date());
 			pstmt.setString(2, carorderVO.getOrder_status());
 			pstmt.setString(3, carorderVO.getOrder_no());
 
 			pstmt.executeUpdate();
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+//		} catch (ClassNotFoundException e) {
+//			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -129,17 +146,17 @@ public class CarOrderDAO implements CarOrder_interface {
 
 		try {
 
-			// con = ds.getConnection();
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, order_no);
 			System.out.println("刪除編號:" + order_no);
 			pstmt.executeUpdate();
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+//		} catch (ClassNotFoundException e) {
+//			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 
 			// Handle any SQL errors
 		} catch (SQLException se) {
@@ -174,9 +191,9 @@ public class CarOrderDAO implements CarOrder_interface {
 
 		try {
 
-			// con = ds.getConnection();
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setString(1, order_no);
@@ -191,8 +208,8 @@ public class CarOrderDAO implements CarOrder_interface {
 				carorderVO.setOrder_status(rs.getString("order_status"));
 			}
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+//		} catch (ClassNotFoundException e) {
+//			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
@@ -233,10 +250,10 @@ public class CarOrderDAO implements CarOrder_interface {
 
 		try {
 
-			// con = ds.getConnection();
+			con = ds.getConnection();
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+//			Class.forName(driver);
+//			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -250,8 +267,8 @@ public class CarOrderDAO implements CarOrder_interface {
 
 				list.add(carorderVO);
 			}
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+//		} catch (ClassNotFoundException e) {
+//			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
 
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
