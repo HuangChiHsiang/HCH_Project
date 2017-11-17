@@ -16,7 +16,6 @@ import javax.sql.DataSource;
 
 import com.cardetail.model.CarDetailVO;
 import com.carorder.model.CarOrderVO;
-import com.hcorder.modal.HcOrderDetailVO;
 
 public class CarOrderDAO implements CarOrder_interface {
 
@@ -41,12 +40,14 @@ public class CarOrderDAO implements CarOrder_interface {
 	private static final String GET_ONE_STMT = "SELECT ORDER_NO,MEM_NO,ORDER_DATE,ORDER_STATUS FROM CAR_ORDER WHERE ORDER_NO = ?";
 	private static final String DELETE = "DELETE FROM CAR_ORDER WHERE ORDER_NO = ?";
 	private static final String UPDATE = "UPDATE CAR_ORDER SET MEM_NO = ?, ORDER_STATUS = ? WHERE ORDER_NO = ?";
+	private static final String SELECT_ATTENDANCE ="select ATTENDANCE, WORK_HOURS from CAR_SCHEDUL where YEAR_MONTH = ? and EMP_NO = ?";
 
 	@Override
 	public String insert(CarOrderVO carorderVO,List<CarDetailVO> list) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String nxOrder_No = null;
+		PreparedStatement pstmt2 =null;
+		String nextNo = null;
 		ResultSet rs = null;
 		
 		try {
@@ -65,9 +66,27 @@ public class CarOrderDAO implements CarOrder_interface {
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
 			rs.next();
-			nxOrder_No = rs.getString(1);
+			nextNo = rs.getString(1);
 			pstmt.close();
 			
+			pstmt = con.prepareStatement(INSERT_DETAIL_STMT);
+			
+			for(CarDetailVO carDetailVO :list){
+				pstmt.setString(1, nextNo);
+				pstmt.setInt(2, carDetailVO.getVehicle_no());
+				pstmt.setDate(3, carDetailVO.getDetail_date());
+				pstmt.setString(4, carDetailVO.getDetail_time());
+				pstmt.setString(5, carDetailVO.getPassenger_name());
+				pstmt.setString(6, carDetailVO.getPassenger_phone());
+				pstmt.setString(7, carDetailVO.getGetinto_address());
+				pstmt.setString(8, carDetailVO.getArrival_address());
+				pstmt.setString(9, carDetailVO.getSendcar_status());
+				pstmt.executeUpdate();
+				pstmt.clearParameters();
+				
+			
+			}
+			con.commit();
 
 //		} catch (ClassNotFoundException e) {
 //			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -91,6 +110,7 @@ public class CarOrderDAO implements CarOrder_interface {
 				}
 			}
 		}
+		return nextNo;
 
 	}
 

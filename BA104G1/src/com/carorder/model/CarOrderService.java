@@ -1,7 +1,10 @@
 package com.carorder.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.cardetail.model.CarDetailVO;
 
 public class CarOrderService {
 
@@ -14,14 +17,15 @@ public class CarOrderService {
 	public CarOrderVO addCarOrder(String mem_no, Date order_date,String order_status) {
 
 		CarOrderVO carorderVO = new CarOrderVO();
+		List<CarDetailVO> list = new ArrayList<CarDetailVO>();
 		
 		carorderVO.setMem_no(mem_no);
 		carorderVO.setOrder_date(order_date);
 		carorderVO.setOrder_status(order_status);
 		
 		
-		dao.insert(carorderVO);
-
+		String order_no = dao.insert(carorderVO,list);
+		carorderVO.setOrder_no(order_no);
 		return carorderVO;
 	}
 

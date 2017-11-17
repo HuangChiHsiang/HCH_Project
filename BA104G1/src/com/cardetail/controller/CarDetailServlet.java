@@ -225,11 +225,8 @@ public class CarDetailServlet extends HttpServlet {
 
 				if (cartypeAll.getCartypename().equals(inputCarTypeName)) {
 					cartypeno = cartypeAll.getCartypeno();
-
-				}
-				;
-			}
-			;
+				};
+			};
 			System.out.println("車型編號:" + cartypeno);
 
 			java.sql.Date sysdate = new java.sql.Date(System.currentTimeMillis());
@@ -262,10 +259,8 @@ public class CarDetailServlet extends HttpServlet {
 						dayStatusList.add(i);
 						System.out.println("將" + i + "號放進List.");
 					}
-				}
-				;
-			}
-			;
+				};
+			};
 
 			JSONObject myObj = new JSONObject();
 			try {
@@ -307,10 +302,8 @@ public class CarDetailServlet extends HttpServlet {
 				if (cartypeAll.getCartypename().equals(inputCarTypeName)) {
 					cartypeno = cartypeAll.getCartypeno();
 
-				}
-				;
-			}
-			;
+				};
+			};
 			System.out.println("車型編號:" + cartypeno);
 
 			java.sql.Date sysdate = new java.sql.Date(System.currentTimeMillis());
@@ -320,7 +313,6 @@ public class CarDetailServlet extends HttpServlet {
 			List<VehicleVO> vehicleVO = carSchedulSv.getVehicleInfo(cartypeno, sysdate);
 			Integer vehicle_no = vehicleVO.get(0).getVehicle_no();
 			System.out.println("車輛編號:" + vehicle_no);
-			// Integer vehicle_no = new
 			// Integer(req.getParameter("vehicle_no").trim());
 
 			java.sql.Date detail_date = null;

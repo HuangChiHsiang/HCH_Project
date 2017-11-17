@@ -233,16 +233,16 @@ tr:nth-child(even) {
 									    <div class="col-md-6">
 									    	選擇服務時段:
 										<div class="radio daypart">
-  										<label><input type="radio" name="optradio" value="0" text="早">早上(8~12)</label>
+  										<label><input type="radio" name="optradio" value="0" text="M">早上(8~12)</label>
 										</div>
 										<div class="radio daypart">
-										  <label><input type="radio" name="optradio" value="1" text="中">下午(1~5)</label>
+										  <label><input type="radio" name="optradio" value="1" text="A">下午(1~5)</label>
 										</div>
 										<div class="radio daypart">
-										  <label><input type="radio" name="optradio" value="2" text="晚">晚上(6~10)</label>
+										  <label><input type="radio" name="optradio" value="2" text="N">晚上(6~10)</label>
 										</div>
 										<div class="radio daypart">
-										  <label><input type="radio" name="optradio" value="3" text="全天">全天</label>
+										  <label><input type="radio" name="optradio" value="3" text="O">全天</label>
 										</div> 
 										
 										<br><br>
@@ -342,26 +342,36 @@ tr:nth-child(even) {
 								<p>您已經完成了訂車流程，請確認下方訂單資訊無誤後送出訂單，</p>
 									<p>如有任何疑問請撥打以下客服專線。</p>
 									<h2>0979-498988</h2>
-									<table id="showFormMsg">
+									
+									
+									
+									
+									<table class = "table" id="showFormMsg">
+									<thead class="thead-light">
 									<tr><th>車型</th><th>日期</th><th>時段</th><th>接送地點</th><th>目的地</th></tr>
+									</thead>
 									<tr><td id="inputmsg1"></td><td id="inputmsg2"></td><td id="inputmsg3"></td><td id="inputmsg4"></td><td id="inputmsg5"></td></tr>
 									</table>
+									
+									
+									
+									
 									<form role="form" action="<%=request.getContextPath()%>/cardetail/cardetail.do" method="post">
-											<input type="hidden" name="action" value="insert">
-											<input type="hidden" name="cartypename" id="cartypefor">
-										    <input type="hidden" name="detail_date" id="datefor" 	>
+											<!-- <input type="hidden" name="action" value="insert">
+											<input type="hidden" name="cartypename" id="cartypename">
+										    <input type="hidden" name="detail_date" id="detail_date" 	>
 										    <input type="hidden" name="detail_time" id="detail_time" >
-										    <input type="hidden" name="detail_time_no" id="daypartfor" >
+										    <input type="hidden" name="detail_time_no" id="detail_time_no" >
 										    <input type="hidden" name="county" 		id="countyfor" 	>
 										    <input type="hidden" name="district" 	id="districtfor">
 										    <input type="hidden" name="address" 	id="addressfor" >
-										    <input type="hidden" name="arrival_address" 	id="arrivalfor" >
+										    <input type="hidden" name="arrival_address" 	id="arrival_address" > -->
 										    <input type="hidden" name="passenger_name" 	id="passenger_name" value="李安">  
 										    <input type="hidden" name="passenger_phone" 	id="passenger_phone"  value="09787877878">
 										    <input type="hidden" name="sendcar_status" 	id="sendcar_status" value="A" >
-										    <input type="hidden" name="formCheck" 	id="formCheck" value="${formCheck}">
+										   <%--  <input type="hidden" name="formCheck" 	id="formCheck" value="${formCheck}"> --%>
 										    
-										    
+										    passenger_name,passenger_phone,sendcar_status
 									<ul class="list-inline pull-right">
 									<li><button type="button"
 											class="btn btn-default prev-step">上一步</button></li>	
@@ -398,49 +408,72 @@ tr:nth-child(even) {
 									    		    elCounty: ".county2", // 在 el 裡查找 dom
 									    		    elDistrict: ".district2", // 在 el 裡查找 dom
 									    		  }); 
-											//var adddates = "";
-												
-						
-									  
+											
 									    	$('.next-step').click(
 													function() {
 														$("#inputmsg1").html($('li.active>a').text());
 														$("#inputmsg2").html($('#chooseDate').val());
-														$("#cartypefor").val($('li.active>a').text());
-														$("#datefor").val($('#chooseDate').val());
-														$("#daypartfor").val($("input[name='optradio']:checked").val());
-														$("#detail_time").val($("input[name='optradio']:checked").attr("text"));
-														
-														
+														$("input[name='optradio']").change(function(){
+															$("#inputmsg3").html($("input[name='optradio']:checked").attr("text"));
+														});
 														var adsTxt1 =$('.county').val();
 														var adsTxt2 =$('.district').val();
 														var adsTxt3 =$('#address').val();
-														$("#inputmsg4").html( adsTxt1 + adsTxt2+ adsTxt3);
-														$("#countyfor").val($('.county').val());
-														$("#districtfor").val($('.district').val());
-														$("#addressfor").val($('#address').val());
-														
-														
-														
-													
+														$("#inputmsg4").html(adsTxt1 + adsTxt2+ adsTxt3);
 														var arrTxt1 = $('#county2').val();
 														var arrTxt2 = $('#district2').val();
 														var arrTxt3 = $('#address2').val();
 														$("#inputmsg5").html(arrTxt1+ arrTxt2 + arrTxt3);
-														console.log("確認目的地:"+ $('#county2').val());
-														$("#arrivalfor").val($("#inputmsg5").html());
+														
+													/* 	$("#cartypename").val($('li.active>a').text());
+														$("#detail_date").val($('#chooseDate').val());
+														$("#detail_time_no").val($("input[name='optradio']:checked").val());
+														$("#detail_time").val($("input[name='optradio']:checked").attr("text"));
+														$("#countyfor").val($('.county').val());
+														$("#districtfor").val($('.district').val());
+														$("#addressfor").val($('#address').val());
+														$("#arrival_address").val($("#inputmsg5").html()); */
 														
 														
-														
-														
-														
+														 cartypename = $("#cartypename").val($('li.active>a').text());
+														 detail_date = $("#detail_date").val($('#chooseDate').val());
+													     detail_time_no = $("#detail_time_no").val($("input[name='optradio']:checked").val());
+													     detail_time = $("#detail_time").val($("input[name='optradio']:checked").attr("text"));
+													     countyfor = $("#countyfor").val($('.county').val());
+													     districtfor = $("#districtfor").val($('.district').val());
+													     addressfor = $("#addressfor").val($('#address').val());
+													     arrival_address = $("#arrival_address").val($("#inputmsg5").html());	
 													});
-											$("input[name='optradio']").change(function(){
-												$("#inputmsg3").html($("input[name='optradio']:checked").attr("text"));
-											});
 											
 											
-												$(".ulbtn").mouseover(function(){
+									    	$('.submit-form').click(function() {
+									    		
+									    		$.ajax({
+													 type: "POST",
+													 url: "<%=request.getContextPath()%>/cardetail/cardetail.do",
+													 data: creatQueryString(cartypename,detail_date,detail_time_no,detail_time,countyfor,districtfor,addressfor,arrival_address,passenger_name,passenger_phone,sendcar_status),
+													 dataType: "json",
+													 
+													 success: function (data){
+														console.log("成功!!")
+												     },
+										            error: function(){alert("失敗")}
+										        })
+									    		
+									    	});
+									    	
+									    	function creatQueryString(cartypename,detail_date,detail_time_no,detail_time,countyfor,districtfor,addressfor,arrival_address){
+												console.log("cartypename:"+cartypename+"; detail_date:"+detail_date+";detail_time_no:"+detail_time_no+"; detail_time:"+detail_time+";countyfor:"+countyfor+"; districtfor:"+districtfor+";arrival_address:"+arrival_address);
+												var queryString= {"action":"insert", "cartypename":cartypename, "detail_date":detail_date, "detail_time_no":detail_time_no, "detail_time":detail_time, "countyfor":countyfor, "districtfor":districtfor, "arrival_address":arrival_address, "passenger_name":"R群","passenger_phone":"0979498988" };
+												return queryString;
+										
+							    	 		};
+									    	
+									    	
+									    	
+											/* 固定step */
+											
+											$(".ulbtn").mouseover(function(){
 													$("#presentation1").addClass("active");
 												});	
 												
@@ -460,7 +493,9 @@ tr:nth-child(even) {
 													  timer: 3500
 													});
 												}
-										<!--AJAX日期處理-->	
+									
+												
+											/* AJAX日期處理 */
 												var datelist = [];
 												var datelist2 = []; 
 												
@@ -475,8 +510,11 @@ tr:nth-child(even) {
 															 dataType: "json",
 															 
 															 success: function (data){
+																
 																 $("#chooseDate").remove();
 																 datelist = data.dayStatusList;
+																 console.log("list:"+datelist);
+															
 																 dateList2Add();
 																 $(".addDatePick").append("<input id='chooseDate'>");
 													
@@ -487,7 +525,7 @@ tr:nth-child(even) {
 															    		stepMonths: 0,
 															    		addDisabledDates: datelist2
 																	});//多選日期	
-							
+																	datelist2 =[];
 														     },
 												            error: function(){alert("暫時不提供此時段派車服務")}
 												        })
@@ -498,17 +536,21 @@ tr:nth-child(even) {
 												    	 for(i=0;i<datelist.length;i++){
 												    		 datelist2[i] = date.setDate(datelist[i]);
 												    	 } 
+												    	 return  datelist2;
 											    	 	};
-													function dateList2Clear(){
-														datelist2 =0;
-													};
+													/* function dateList2Clear(){
+														datelist2 =[];
+														
+													
+													}; */
 													function creatQueryString(detail_time_no, cartypename){
 														console.log("detail_time_no:"+detail_time_no+"; cartypename:"+cartypename);
 														var queryString= {"action":"getDisableDates", "detail_time_no":detail_time_no, "cartypename":cartypename};
-														console.log("list:"+datelist);
 														return queryString;
 												
 									    	 		};
+									    	 		
+									    	 		
 									    	<!--地址處理-->		
 									    	 var cityArr1 = ["臺北市", "基隆市", "新北市","桃園市","新竹市","新竹縣"];
 									    	 var cityArr2 = ["苗栗縣","臺中市","彰化縣","南投縣","雲林縣"];
